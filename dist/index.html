@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BIM App — That Open Company</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --black: #0a0a0a; --white: #fafafa; --gray: #6e6e73; --accent: #1a6cff; }
+    body { font-family: 'Sora', sans-serif; background: var(--black); color: var(--white); overflow-x: hidden; }
+    #canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 64px; background: rgba(10,10,10,0.72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo img { height: 28px; width: auto; }
+    .nav-logo span { font-size: 15px; font-weight: 500; color: var(--white); letter-spacing: -0.01em; }
+    nav ul { list-style: none; display: flex; gap: 32px; }
+    nav ul a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    nav ul a:hover { color: var(--white); }
+    .nav-cta { background: var(--accent); color: var(--white) !important; padding: 8px 18px; border-radius: 980px; font-weight: 500 !important; transition: opacity 0.2s !important; }
+    .nav-cta:hover { opacity: 0.85; }
+    .hero { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 48px 80px; }
+    .hero-eyebrow { font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s 0.2s ease forwards; }
+    .hero h1 { font-size: clamp(48px, 7vw, 88px); font-weight: 600; line-height: 1.05; letter-spacing: -0.04em; color: var(--white); max-width: 860px; margin-bottom: 28px; opacity: 0; animation: fadeUp 0.8s 0.4s ease forwards; }
+    .hero h1 span { color: rgba(255,255,255,0.3); }
+    .hero p { font-size: clamp(16px, 2vw, 19px); font-weight: 300; color: var(--gray); max-width: 520px; line-height: 1.7; margin-bottom: 48px; opacity: 0; animation: fadeUp 0.8s 0.6s ease forwards; }
+    .hero-actions { display: flex; gap: 16px; align-items: center; opacity: 0; animation: fadeUp 0.8s 0.8s ease forwards; }
+    .btn-primary { background: var(--accent); color: var(--white); padding: 14px 28px; border-radius: 980px; font-size: 16px; font-weight: 500; text-decoration: none; font-family: 'Sora', sans-serif; transition: opacity 0.2s, transform 0.2s; }
+    .btn-primary:hover { opacity: 0.85; transform: scale(0.98); }
+    .btn-ghost { color: var(--accent); font-size: 16px; font-weight: 400; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: gap 0.2s; }
+    .btn-ghost:hover { gap: 10px; }
+    .features { position: relative; z-index: 1; padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
+    .section-label { font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); margin-bottom: 64px; text-align: center; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 48px 40px; transition: background 0.3s; }
+    .card:hover { background: rgba(255,255,255,0.06); }
+    .card:first-child { border-radius: 20px 0 0 20px; }
+    .card:last-child { border-radius: 0 20px 20px 0; }
+    .card-icon { font-size: 32px; margin-bottom: 24px; display: block; }
+    .card h3 { font-size: 22px; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.02em; }
+    .card p { font-size: 15px; font-weight: 300; color: var(--gray); line-height: 1.65; }
+    footer { position: relative; z-index: 1; border-top: 1px solid rgba(255,255,255,0.06); padding: 48px; text-align: center; color: rgba(255,255,255,0.3); font-size: 13px; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 768px) { nav { padding: 0 24px; } nav ul { display: none; } .hero { padding: 100px 24px 60px; } .features { padding: 80px 24px; } .grid { grid-template-columns: 1fr; gap: 2px; } .card:first-child { border-radius: 20px 20px 0 0; } .card:last-child { border-radius: 0 0 20px 20px; } }
+  </style>
+  <script type="module" crossorigin src="/test-delft/assets/main-Dpdv3X9v.js"></script>
+  <link rel="modulepreload" crossorigin href="/test-delft/assets/modulepreload-polyfill-B5Qt9EMX.js">
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <nav>
+    <a class="nav-logo" href="#">
+      <img src="https://camo.githubusercontent.com/c9fac0542b6206356be98528575f8af592f4e43a2b5e3fbe941c10a30693ed94/68747470733a2f2f746861746f70656e2e6769746875622e696f2f656e67696e655f636f6d706f6e656e74732f7265736f75726365732f66617669636f6e2e69636f" alt="That Open Company" />
+      <span>That Open Company</span>
+    </a>
+    <ul>
+      <li><a href="#">Docs</a></li>
+      <li><a href="#">Community</a></li>
+      <li><a href="#">GitHub</a></li>
+      <li><a href="#" class="nav-cta">Get Started</a></li>
+    </ul>
+  </nav>
+  <section class="hero">
+    <p class="hero-eyebrow">Open Source BIM for the Web</p>
+    <h1>Build the future of <span>construction</span> software.</h1>
+    <p>A web-native BIM platform built on open standards — fast, accessible, and free from proprietary lock-in.</p>
+    <div class="hero-actions">
+      <a href="/viewer.html" class="btn-primary">Start building</a>
+      <a href="#" class="btn-ghost">Learn more →</a>
+    </div>
+  </section>
+  <section class="features">
+    <p class="section-label">Why That Open Engine</p>
+    <div class="grid">
+      <div class="card"><span class="card-icon">⚡</span><h3>Native-speed IFC</h3><p>Parse and query massive IFC files at near-native speeds directly in the browser using WebAssembly.</p></div>
+      <div class="card"><span class="card-icon">🌐</span><h3>Web-first 3D</h3><p>Built on Three.js and the Fragment format — efficient streaming of complex BIM models with zero plugins.</p></div>
+      <div class="card"><span class="card-icon">🔓</span><h3>Truly open source</h3><p>No vendor lock-in. No licensing fees. Trusted by Bosch, Ferrovial, Enel and 8,000+ developers worldwide.</p></div>
+    </div>
+  </section>
+  <footer><p>© 2025 That Open Company · Built with open source, for everyone.</p></footer>
+</body>
+</html>
